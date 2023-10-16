@@ -222,10 +222,10 @@ func TestPointBls12377G2Random(t *testing.T) {
 	sc := bls12377G2.Point.Random(testRng())
 	s, ok := sc.(*PointBls12377G2)
 	require.True(t, ok)
-	expectedX, _ := new(big.Int).SetString("2deeb99988cc46605a5e8eeb50b2c52fc4a12b4537aa8a149431ca85bac2017a32d2a3bf8411d5145bdf587f162a1b01a106e89ebf3210c0926ba07681cd84fc8ae2409b396b24730a8b851d05ba3293b82ae341c472d626c1f55da16ba46d", 16)
-	expectedY, _ := new(big.Int).SetString("b17be752bc4a8ff05824fcf974d232cebe07ee333ce879bf8c7b88ce18813cb190e8a45eddbd7cc5a4b68993ed17770094ab97b85b70b0b80e89c854336b85e46c7259070fb6606b03bcab12d96438f9a79353fafe11733aed51bfa4e798b8", 16)
-	require.Equal(t, s.X(), expectedX)
-	require.Equal(t, s.Y(), expectedY)
+	expectedX, _ := new(big.Int).SetString("1417e471b6deb7c628ed35fe4a89fc097ea0b39e503ef8d71cded5c8ffb34ac7f3b0563771be6ad99f04cec8186ada40058892d3fd64fd6ff0ae43e5f6f768ae51ad8c6910d5428b5046b91e4254e3ab8e4d70cc373b75782584c1f5bfb36af", 16)
+	expectedY, _ := new(big.Int).SetString("11e5c3b3e7cd573d95356af784614a058b23f6650207050abdbd2fa02475b1dda23d55153598d1dd449d67064fe6e5c013b63ea7b63eef536fe19db95e37fb91e0b0beacd99052509f3866ae98313098638ebc7ebef2aaef537dc163d9e47c3", 16)
+	require.Equal(t, expectedX, s.X())
+	require.Equal(t, expectedY, s.Y())
 	// Try 10 random values
 	for i := 0; i < 10; i++ {
 		sc := bls12377G2.Point.Random(crand.Reader)
@@ -241,10 +241,10 @@ func TestPointBls12377G2Hash(t *testing.T) {
 	sc := bls12377G2.Point.Hash(b[:])
 	s, ok := sc.(*PointBls12377G2)
 	require.True(t, ok)
-	expectedX, _ := new(big.Int).SetString("014eec1848d84be62f3a5778353ea6c2b0db859508bc40ff2c1387f0a4b2a167fedbe6b10f946f33c600623d7b96dc8200ef8b67c1e07c4dc522f25deb617ad8251199d235da8bc7700332c8416aa204f81e6bebd914e46acea095d3083b7723", 16)
-	expectedY, _ := new(big.Int).SetString("015c17fb5e37ce1284fa5f10cca9a55be5a5e4d821649294ab820a6f044f55337665df04a940ee7f5d937aff69196b010168d9090eb791d4b21752622f1fd5fb0f4c44bfd83e2cf6d332b02343999fac3de660ca84aff40b428f25b5378fe648", 16)
-	require.Equal(t, s.X(), expectedX)
-	require.Equal(t, s.Y(), expectedY)
+	expectedX, _ := new(big.Int).SetString("50a89336be1545eec26987f9572e1769c1a4499f545abd3111bd162b64dc43fc7227dfb840242f0caced6a562895d000422b081e5f831056317db371fdaf86380153a2e6b1cbf839962bd380474570cd2df1f0dd4dc0e925268848827e5143", 16)
+	expectedY, _ := new(big.Int).SetString("158e9ebafe8b179e2fc04e8efcf77bcc902ab9e60b6bdcd3f725a199dc8cdb8c91f9018d9bfe93d55a0631180d37f1700d510faac5a49ebdebe781636904ac7949c094ec9530d849a47e96e3cf7d0bb74167b32a90caac2dbeacff015103367", 16)
+	require.Equal(t, expectedX, s.X())
+	require.Equal(t, expectedY, s.Y())
 }
 
 func TestPointBls12377G2Identity(t *testing.T) {
@@ -363,10 +363,10 @@ func TestPointBls12377G1Random(t *testing.T) {
 	sc := bls12377G1.Point.Random(testRng())
 	s, ok := sc.(*PointBls12377G1)
 	require.True(t, ok)
-	expectedX, _ := new(big.Int).SetString("facd83174df271a2dbd7d84f02f4d1b6a61850a926e7ec5ca34e558378feb146231e5e105fa27310843db23a49ca53", 16)
-	expectedY, _ := new(big.Int).SetString("4fa90bd4c90a2d4afd01bf0f561ab112bc13bb7c0faa87a2324febab2c3fa1ff47b2ed1dd9e38b1c660dd6d2ec0a7b", 16)
-	require.Equal(t, s.X(), expectedX)
-	require.Equal(t, s.Y(), expectedY)
+	expectedX, _ := new(big.Int).SetString("15d3b8f9f75676a947395b63b5fec5a0a45037851fefa240b2ce10ed10103d580346b2da49642e523e2859da99b2c37", 16)
+	expectedY, _ := new(big.Int).SetString("d5e27daddb4c90f9c340b657aed84678c3c34394a32e79f86f904b2729ebf13fa38802e5572d37199056735a268835", 16)
+	require.Equal(t, expectedX, s.X())
+	require.Equal(t, expectedY, s.Y())
 	// Try 10 random values
 	for i := 0; i < 10; i++ {
 		sc := bls12377G1.Point.Random(crand.Reader)
@@ -382,10 +382,10 @@ func TestPointBls12377G1Hash(t *testing.T) {
 	sc := bls12377G1.Point.Hash(b[:])
 	s, ok := sc.(*PointBls12377G1)
 	require.True(t, ok)
-	expectedX, _ := new(big.Int).SetString("8c1f4dd215430f2a1c01e1f50eded8de37033e5b70b9987c93547e0b8ec87ca918039d41e5e634773e1bcbe1e2d836", 16)
-	expectedY, _ := new(big.Int).SetString("552b0bde9c7b051118a5619cf409cd9d2b25a1ebb5e35b7c7bd031f8c15f1d08979e634d2acd1b7be4ccb43a064393", 16)
-	require.Equal(t, s.X(), expectedX)
-	require.Equal(t, s.Y(), expectedY)
+	expectedX, _ := new(big.Int).SetString("42c5fae5c40ad7c0d0e5908ba04ec0bddcf0ec0ef9d7b22cd225f17ddeb6a4ba681fba08b84a29a6674a69309e85a7", 16)
+	expectedY, _ := new(big.Int).SetString("1518be16767ad4a9e6d1258c62a47f099230933c5a8afa2ba078e78fa406a82467cafb515cd03e3922fff8c73ad63c3", 16)
+	require.Equal(t, expectedX, s.X())
+	require.Equal(t, expectedY, s.Y())
 }
 
 func TestPointBls12377G1Identity(t *testing.T) {
