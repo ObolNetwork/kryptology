@@ -8,7 +8,7 @@ require (
 	github.com/btcsuite/btcd v0.22.3
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 	github.com/bwesterb/go-ristretto v1.2.0
-	github.com/consensys/gnark-crypto v0.12.0
+	github.com/consensys/gnark-crypto v0.12.1
 	github.com/gtank/merlin v0.1.1
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.2
