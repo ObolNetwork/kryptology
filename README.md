@@ -4,6 +4,14 @@ This library has been archived and is no longer supported. As such it should not
 # Kryptology
 Coinbase's advanced cryptography library
 
+> [!CAUTION]
+> This fork is not maintained actively, it is only used as a way for the Obol team to update critical dependencies on Charon.
+> It will be deprecated soon
+
+> [!CAUTION]
+> The FROST DKG implementation in this repository [might be vulnerable](https://blog.trailofbits.com/2024/02/20/breaking-the-shared-key-in-threshold-signature-schemes/) to a DDoS attack, which could potentially disrupt the keys being generated.
+> Charon is [immune](https://github.com/ObolNetwork/charon/issues/3031) to that thanks to its defensive programming approach.
+
 ## Quickstart
 Use the latest version of this library:
 ```$xslt
