@@ -5,7 +5,6 @@ go 1.21
 require (
 	filippo.io/edwards25519 v1.0.0-rc.1
 	git.sr.ht/~sircmpwn/go-bare v0.0.0-20210406120253-ab86bc2846d9
-	github.com/btcsuite/btcd v0.22.3
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 	github.com/bwesterb/go-ristretto v1.2.0
 	github.com/consensys/gnark-crypto v0.12.0
