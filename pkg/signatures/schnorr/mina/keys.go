@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/btcsuite/btcutil/base58"
+	"github.com/btcsuite/btcd/btcutil/base58"
 	"golang.org/x/crypto/blake2b"
 
 	"github.com/coinbase/kryptology/pkg/core/curves"

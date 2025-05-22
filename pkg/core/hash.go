@@ -15,7 +15,7 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/btcsuite/btcd/btcec"
+	btcec "github.com/btcsuite/btcd/btcec/v2"
 	"golang.org/x/crypto/hkdf"
 
 	"github.com/coinbase/kryptology/internal"

@@ -14,11 +14,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/btcsuite/btcd/btcec"
+	btcec "github.com/btcsuite/btcd/btcec/v2"
 
 	"github.com/coinbase/kryptology/pkg/core/curves"
 	dkg "github.com/coinbase/kryptology/pkg/dkg/gennaro"
-	"github.com/coinbase/kryptology/pkg/sharing/v1"
+	v1 "github.com/coinbase/kryptology/pkg/sharing/v1"
 )
 
 const LIMIT = 4
@@ -81,7 +81,7 @@ func main() {
 		panic("verification keys are not equal")
 	}
 
-	privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(), sk)
+	privKey, pubKey := btcec.PrivKeyFromBytes(sk)
 
 	hBytes := sha512.Sum384(msg)
 	hMsg := new(big.Int).SetBytes(hBytes[:])
