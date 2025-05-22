@@ -7,7 +7,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/btcsuite/btcd/btcec"
+	btcec "github.com/btcsuite/btcd/btcec/v2"
 
 	"github.com/coinbase/kryptology/internal"
 	mod "github.com/coinbase/kryptology/pkg/core"
