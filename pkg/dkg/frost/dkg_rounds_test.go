@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	testCurve = curves.ED25519()
+	testCurve = curves.BLS12381G2()
 	Ctx       = "string to prevent replay attack"
 )
 

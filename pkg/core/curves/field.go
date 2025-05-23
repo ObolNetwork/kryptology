@@ -113,17 +113,9 @@ func (f Field) RandomElement(r io.Reader) (*Element, error) {
 	}
 	var randInt *big.Int
 	var err error
-	// Ed25519 needs to do special handling
-	// in case the value is used in
-	// Scalar multiplications with points
-	if f.Int.Cmp(Ed25519Order()) == 0 {
-		scalar := NewEd25519Scalar()
-		randInt, err = scalar.RandomWithReader(r)
-	} else {
-		// Read a random integer within the field. This is defined as [0, max) so we don't need to
-		// explicitly check it is within the field. If it is not, NewElement will panic anyways.
-		randInt, err = rand.Int(r, f.Int)
-	}
+	// Read a random integer within the field. This is defined as [0, max) so we don't need to
+	// explicitly check it is within the field. If it is not, NewElement will panic anyways.
+	randInt, err = rand.Int(r, f.Int)
 	if err != nil {
 		return nil, err
 	}
@@ -147,11 +139,11 @@ func (f Field) ElementFromBytes(bytes []byte) *Element {
 // for the input bytes is: {0, 1, 2, 3, 4}. What is the distribution of the output values produced
 // by this function?
 //
-//   ReducedElementFromBytes(0) => 0
-//   ReducedElementFromBytes(1) => 1
-//   ReducedElementFromBytes(2) => 2
-//   ReducedElementFromBytes(3) => 0
-//   ReducedElementFromBytes(4) => 1
+//	ReducedElementFromBytes(0) => 0
+//	ReducedElementFromBytes(1) => 1
+//	ReducedElementFromBytes(2) => 2
+//	ReducedElementFromBytes(3) => 0
+//	ReducedElementFromBytes(4) => 1
 //
 // For a value space V and random value v, a uniform distribution is defined as P[V = v] = 1/|V|
 // where |V| is to the order of the field. Using the results from above, we see that P[v = 0] = 2/5,

@@ -9,12 +9,46 @@ package curves
 import (
 	crand "crypto/rand"
 	"math/big"
+	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	"github.com/coinbase/kryptology/pkg/core/curves/native/bls12381"
 )
+
+type mockReader struct {
+	index int
+	seed  []byte
+}
+
+var mockRngInitonce sync.Once
+var mockRng mockReader
+
+func newMockReader() {
+	mockRng.index = 0
+	mockRng.seed = make([]byte, 32)
+	for i := range mockRng.seed {
+		mockRng.seed[i] = 1
+	}
+}
+
+func testRng() *mockReader {
+	mockRngInitonce.Do(newMockReader)
+	return &mockRng
+}
+
+func (m *mockReader) Read(p []byte) (n int, err error) {
+	limit := len(m.seed)
+	for i := range p {
+		p[i] = m.seed[m.index]
+		m.index += 1
+		m.index %= limit
+	}
+	n = len(p)
+	err = nil
+	return
+}
 
 func TestScalarBls12381G1Random(t *testing.T) {
 	bls12381g1 := BLS12381G1()
