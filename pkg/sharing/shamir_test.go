@@ -18,7 +18,7 @@ import (
 )
 
 func TestShamirSplitInvalidArgs(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	_, err := NewShamir(0, 0, curve)
 	require.NotNil(t, err)
 	_, err = NewShamir(3, 2, curve)
@@ -33,7 +33,7 @@ func TestShamirSplitInvalidArgs(t *testing.T) {
 }
 
 func TestShamirCombineNoShares(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(2, 3, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -42,7 +42,7 @@ func TestShamirCombineNoShares(t *testing.T) {
 }
 
 func TestShamirCombineDuplicateShare(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(2, 3, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -60,7 +60,7 @@ func TestShamirCombineDuplicateShare(t *testing.T) {
 }
 
 func TestShamirCombineBadIdentifier(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(2, 3, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -85,7 +85,7 @@ func TestShamirCombineBadIdentifier(t *testing.T) {
 }
 
 func TestShamirCombineSingle(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(2, 3, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -100,7 +100,7 @@ func TestShamirCombineSingle(t *testing.T) {
 
 // Test ComputeL function to compute Lagrange coefficients.
 func TestShamirComputeL(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(2, 2, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -126,7 +126,7 @@ func TestShamirComputeL(t *testing.T) {
 }
 
 func TestShamirAllCombinations(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	scheme, err := NewShamir(3, 5, curve)
 	require.Nil(t, err)
 	require.NotNil(t, scheme)
@@ -157,7 +157,7 @@ func TestShamirAllCombinations(t *testing.T) {
 
 // Ensures that ShamirShare's un/marshal successfully.
 func TestMarshalJsonRoundTrip(t *testing.T) {
-	curve := curves.ED25519()
+	curve := curves.BLS12381G2()
 	shares := []ShamirShare{
 		{0, curve.Scalar.New(300).Bytes()},
 		{2, curve.Scalar.New(300000).Bytes()},

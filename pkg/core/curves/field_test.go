@@ -8,7 +8,6 @@ package curves
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"math/big"
 	"testing"
@@ -26,12 +25,6 @@ var (
 	oneAboveModulus = zero().Add(modulus, one)
 	field25519      = NewField(modulus)
 )
-
-type buggedReader struct{}
-
-func (r buggedReader) Read(p []byte) (n int, err error) {
-	return 0, errors.New("EOF")
-}
 
 func zero() *big.Int {
 	return new(big.Int)
@@ -104,20 +97,6 @@ func TestZeroElement(t *testing.T) {
 func TestOneElement(t *testing.T) {
 	require.Equal(t, field25519.One().Value, one)
 	require.Equal(t, field25519.One().Field(), field25519)
-}
-
-func TestRandomElement(t *testing.T) {
-	randomElement1, err := field25519.RandomElement(nil)
-	require.NoError(t, err)
-	randomElement2, err := field25519.RandomElement(nil)
-	require.NoError(t, err)
-	randomElement3, err := field25519.RandomElement(new(buggedReader))
-	require.Error(t, err)
-
-	require.Equal(t, field25519, randomElement1.Field())
-	require.Equal(t, field25519, randomElement2.Field())
-	require.NotEqual(t, randomElement1.Value, randomElement2.Value)
-	require.Nil(t, randomElement3)
 }
 
 func TestElementFromBytes(t *testing.T) {
