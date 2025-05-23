@@ -12,14 +12,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/btcsuite/btcd/btcec"
-
 	"github.com/coinbase/kryptology/internal"
 	"github.com/coinbase/kryptology/pkg/core"
 )
 
 var curveNameToId = map[string]byte{
-	"secp256k1": 0,
 	"P-224":     1,
 	"P-256":     2,
 	"P-384":     3,
@@ -27,7 +24,6 @@ var curveNameToId = map[string]byte{
 }
 
 var curveIdToName = map[byte]func() elliptic.Curve{
-	0: func() elliptic.Curve { return btcec.S256() },
 	1: elliptic.P224,
 	2: elliptic.P256,
 	3: elliptic.P384,
@@ -35,7 +31,6 @@ var curveIdToName = map[byte]func() elliptic.Curve{
 }
 
 var curveMapper = map[string]func() elliptic.Curve{
-	"secp256k1": func() elliptic.Curve { return btcec.S256() },
 	"P-224":     elliptic.P224,
 	"P-256":     elliptic.P256,
 	"P-384":     elliptic.P384,

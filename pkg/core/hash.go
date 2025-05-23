@@ -15,7 +15,6 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/btcsuite/btcd/btcec"
 	"golang.org/x/crypto/hkdf"
 
 	"github.com/coinbase/kryptology/internal"
@@ -37,29 +36,7 @@ type Params struct {
 
 func getParams(curve elliptic.Curve) (*Params, error) {
 	switch curve.Params().Name {
-	case btcec.S256().Name, elliptic.P256().Params().Name:
-		return &Params{
-			F: &HashField{
-				Order:           curve.Params().P,
-				Characteristic:  curve.Params().P,
-				ExtensionDegree: new(big.Int).SetInt64(1),
-			},
-			SecurityParameter: 128,
-			Hash:              sha256.New,
-			L:                 48,
-		}, nil
 	case "Bls12381G1":
-		return &Params{
-			F: &HashField{
-				Order:           curve.Params().P,
-				Characteristic:  curve.Params().P,
-				ExtensionDegree: new(big.Int).SetInt64(1),
-			},
-			SecurityParameter: 128,
-			Hash:              sha256.New,
-			L:                 48,
-		}, nil
-	case "ed25519":
 		return &Params{
 			F: &HashField{
 				Order:           curve.Params().P,

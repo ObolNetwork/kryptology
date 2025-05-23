@@ -12,7 +12,6 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/btcsuite/btcd/btcec"
 	"github.com/stretchr/testify/require"
 
 	tt "github.com/coinbase/kryptology/internal"
@@ -21,13 +20,13 @@ import (
 
 func TestIsIdentity(t *testing.T) {
 	// Should be Point at infinity
-	identity := &EcPoint{btcec.S256(), core.Zero, core.Zero}
+	identity := &EcPoint{elliptic.P256(), core.Zero, core.Zero}
 	require.True(t, identity.IsIdentity())
 }
 
 func TestNewScalarBaseMultZero(t *testing.T) {
 	// Should be Point at infinity
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	num := big.NewInt(0)
 	p, err := NewScalarBaseMult(curve, num)
 	if err != nil {
@@ -40,7 +39,7 @@ func TestNewScalarBaseMultZero(t *testing.T) {
 
 func TestNewScalarBaseMultOne(t *testing.T) {
 	// Should be base Point
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	num := big.NewInt(1)
 	p, err := NewScalarBaseMult(curve, num)
 	if err != nil {
@@ -50,13 +49,13 @@ func TestNewScalarBaseMultOne(t *testing.T) {
 		t.Errorf("NewScalarBaseMult failed when it should've succeeded.")
 		t.FailNow()
 	}
-	if !bytes.Equal(p.Bytes(), append(curve.Gx.Bytes(), curve.Gy.Bytes()...)) {
+	if !bytes.Equal(p.Bytes(), append(curve.Params().Gx.Bytes(), curve.Params().Gy.Bytes()...)) {
 		t.Errorf("NewScalarBaseMult should've returned the base Point.")
 	}
 }
 
 func TestNewScalarBaseMultNeg(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	num := big.NewInt(-1)
 	p, err := NewScalarBaseMult(curve, num)
 	if err != nil {
@@ -66,7 +65,7 @@ func TestNewScalarBaseMultNeg(t *testing.T) {
 		t.Errorf("NewScalarBaseMult failed when it should've succeeded.")
 		t.FailNow()
 	}
-	num.Mod(num, curve.N)
+	num.Mod(num, curve.Params().N)
 
 	e, err := NewScalarBaseMult(curve, num)
 	if err != nil {
@@ -84,11 +83,11 @@ func TestNewScalarBaseMultNeg(t *testing.T) {
 
 func TestScalarMultZero(t *testing.T) {
 	// Should be Point at infinity
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	p := &EcPoint{
 		Curve: curve,
-		X:     curve.Gx,
-		Y:     curve.Gy,
+		X:     curve.Params().Gx,
+		Y:     curve.Params().Gy,
 	}
 	num := big.NewInt(0)
 	q, err := p.ScalarMult(num)
@@ -106,11 +105,11 @@ func TestScalarMultZero(t *testing.T) {
 
 func TestScalarMultOne(t *testing.T) {
 	// Should be base Point
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	p := &EcPoint{
 		Curve: curve,
-		X:     curve.Gx,
-		Y:     curve.Gy,
+		X:     curve.Params().Gx,
+		Y:     curve.Params().Gy,
 	}
 	num := big.NewInt(1)
 	q, err := p.ScalarMult(num)
@@ -121,17 +120,17 @@ func TestScalarMultOne(t *testing.T) {
 		t.Errorf("ScalarMult failed when it should've succeeded.")
 		t.FailNow()
 	}
-	if !bytes.Equal(q.Bytes(), append(curve.Gx.Bytes(), curve.Gy.Bytes()...)) {
+	if !bytes.Equal(q.Bytes(), append(curve.Params().Gx.Bytes(), curve.Params().Gy.Bytes()...)) {
 		t.Errorf("ScalarMult should've returned the base Point.")
 	}
 }
 
 func TestScalarMultNeg(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	p := &EcPoint{
 		Curve: curve,
-		X:     curve.Gx,
-		Y:     curve.Gy,
+		X:     curve.Params().Gx,
+		Y:     curve.Params().Gy,
 	}
 	num := big.NewInt(-1)
 	q, err := p.ScalarMult(num)
@@ -141,7 +140,7 @@ func TestScalarMultNeg(t *testing.T) {
 	if q == nil {
 		t.Errorf("ScalarMult failed when it should've succeeded.")
 	}
-	num.Mod(num, curve.N)
+	num.Mod(num, curve.Params().N)
 
 	e, err := p.ScalarMult(num)
 	if err != nil {
@@ -158,7 +157,7 @@ func TestScalarMultNeg(t *testing.T) {
 }
 
 func TestEcPointAddSimple(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	num := big.NewInt(1)
 	p1, _ := NewScalarBaseMult(curve, num)
 
@@ -177,7 +176,7 @@ func TestEcPointAddSimple(t *testing.T) {
 }
 
 func TestEcPointAddCommunicative(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	a, _ := core.Rand(curve.Params().N)
 	b, _ := core.Rand(curve.Params().N)
 
@@ -197,7 +196,7 @@ func TestEcPointAddCommunicative(t *testing.T) {
 }
 
 func TestEcPointAddNeg(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 	num := big.NewInt(-1)
 
 	p1, _ := NewScalarBaseMult(curve, num)
@@ -217,7 +216,7 @@ func TestEcPointAddNeg(t *testing.T) {
 }
 
 func TestEcPointBytes(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 
 	point, err := NewScalarBaseMult(curve, big.NewInt(2))
 	require.NoError(t, err)
@@ -250,21 +249,18 @@ func TestEcPointBytes(t *testing.T) {
 }
 
 func TestEcPointBytesDifferentCurves(t *testing.T) {
-	k256 := btcec.S256()
 	p224 := elliptic.P224()
 	p256 := elliptic.P256()
 
-	kp, err := NewScalarBaseMult(k256, big.NewInt(1))
+	kp, err := NewScalarBaseMult(p256, big.NewInt(1))
 	require.NoError(t, err)
 	data := kp.Bytes()
 	_, err = PointFromBytesUncompressed(p224, data)
 	require.Error(t, err)
-	_, err = PointFromBytesUncompressed(p256, data)
-	require.Error(t, err)
 }
 
 func TestEcPointBytesInvalidNumberBytes(t *testing.T) {
-	curve := btcec.S256()
+	curve := elliptic.P256()
 
 	for i := 1; i < 64; i++ {
 		data := make([]byte, i)
@@ -279,8 +275,8 @@ func TestEcPointBytesInvalidNumberBytes(t *testing.T) {
 }
 
 func TestEcPointMultRandom(t *testing.T) {
-	curve := btcec.S256()
-	r, err := core.Rand(curve.N)
+	curve := elliptic.P256()
+	r, err := core.Rand(curve.Params().N)
 	require.NoError(t, err)
 	pt, err := NewScalarBaseMult(curve, r)
 	require.NoError(t, err)
@@ -294,7 +290,6 @@ func TestEcPointMultRandom(t *testing.T) {
 }
 
 func TestIsBasePoint(t *testing.T) {
-	k256 := btcec.S256()
 	p224 := elliptic.P224()
 	p256 := elliptic.P256()
 
@@ -307,16 +302,11 @@ func TestIsBasePoint(t *testing.T) {
 		x, y     *big.Int
 		expected bool
 	}{
-		{"k256-positive", k256, k256.Gx, k256.Gy, true},
 		{"p224-positive", p224, p224.Params().Gx, p224.Params().Gy, true},
 		{"p256-positive", p256, p256.Params().Gx, p256.Params().Gy, true},
 
 		{"p224-negative", p224, notG_p224.X, notG_p224.Y, false},
 		{"p256-negative-wrong-curve", p256, notG_p224.X, notG_p224.Y, false},
-		{"k256-negative-doubleGx", k256, k256.Gx, k256.Gx, false},
-		{"k256-negative-doubleGy", k256, k256.Gy, k256.Gy, false},
-		{"k256-negative-xy-swap", k256, k256.Gy, k256.Gx, false},
-		{"k256-negative-oh-oh", k256, core.Zero, core.Zero, false},
 	}
 	// Run all the tests!
 	for _, test := range tests {
@@ -328,17 +318,11 @@ func TestIsBasePoint(t *testing.T) {
 }
 
 func TestEquals(t *testing.T) {
-	k256 := btcec.S256()
 	p224 := elliptic.P224()
-	p256 := elliptic.P256()
 	P_p224, _ := NewScalarBaseMult(p224, tt.B10("9876453120"))
 	P1_p224, _ := NewScalarBaseMult(p224, tt.B10("9876453120"))
 
-	P_k256 := &EcPoint{k256, P_p224.X, P_p224.Y}
-
 	id_p224 := &EcPoint{p224, core.Zero, core.Zero}
-	id_k256 := &EcPoint{k256, core.Zero, core.Zero}
-	id_p256 := &EcPoint{p256, core.Zero, core.Zero}
 
 	tests := []struct {
 		name     string
@@ -348,17 +332,11 @@ func TestEquals(t *testing.T) {
 		{"p224 same pointer", P_p224, P_p224, true},
 		{"p224 same Point", P_p224, P1_p224, true},
 		{"p224 identity", id_p224, id_p224, true},
-		{"p256 identity", id_p256, id_p256, true},
-		{"k256 identity", id_k256, id_k256, true},
 
 		{"negative-same x different y", P_p224, &EcPoint{p224, P_p224.X, core.One}, false},
-		{"negative-same y different x", P_p224, &EcPoint{p224, core.Two, P_k256.Y}, false},
 
-		{"negative-wrong curve", P_p224, P_k256, false},
-		{"negative-wrong curve reversed", P_k256, P_p224, false},
 		{"Point is not the identity", P_p224, id_p224, false},
 		{"negative nil", P1_p224, nil, false},
-		{"identities on wrong curve", id_p256, id_k256, false},
 	}
 	// Run all the tests!
 	for _, test := range tests {

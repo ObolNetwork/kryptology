@@ -162,14 +162,3 @@ func (pd Pedersen) Verify(share *ShamirShare, blinding *ShamirShare, blindedveri
 	// Check if lhs == rhs
 	return lhs.Equals(rhs), nil
 }
-
-// K256GeneratorFromHashedBytes computes a generator whose discrete log is unknown
-// from a bytes sequence
-func K256GeneratorFromHashedBytes(bytes []byte) (x, y *big.Int, err error) {
-	pt := new(curves.PointK256).Hash(bytes)
-	p, _ := pt.(*curves.PointK256)
-	x = p.X().BigInt()
-	y = p.Y().BigInt()
-	err = nil
-	return
-}
