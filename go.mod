@@ -3,7 +3,6 @@ module github.com/coinbase/kryptology
 go 1.24
 
 require (
-	github.com/btcsuite/btcd/btcec/v2 v2.1.3
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/crypto v0.33.0
